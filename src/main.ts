@@ -1,15 +1,17 @@
-import { createApp } from 'vue';
-import { Quasar } from 'quasar';
-import quasarLang from 'quasar/lang/en-US';
-import quasarIconSet from 'quasar/icon-set/material-icons';
+import { createApp } from "vue";
+import { Quasar } from "quasar";
+import quasarLang from "quasar/lang/en-US";
+import quasarIconSet from "quasar/icon-set/material-icons";
 
-import 'quasar/dist/quasar.css';
-import '@quasar/extras/material-icons/material-icons.css';
+import "quasar/dist/quasar.css";
+import "@quasar/extras/material-icons/material-icons.css";
 
-import App from './App.vue';
-//import router from './router';
-//import store from './store';
+import { createPinia } from "pinia";
+import router from "./router";
 
+import App from "./App.vue";
+
+const pinia = createPinia();
 const app = createApp(App);
 
 app.use(Quasar, {
@@ -18,6 +20,7 @@ app.use(Quasar, {
   iconSet: quasarIconSet
 });
 
-//app.use(router);
-//app.use(store);
-app.mount('#app');
+app.use(router);
+app.use(pinia);
+
+app.mount("#app");

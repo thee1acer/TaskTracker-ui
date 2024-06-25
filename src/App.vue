@@ -1,10 +1,34 @@
 <template>
-  <div class="app-router-view-container"></div>
+  <router-view></router-view>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts">
+import { defineComponent, watch } from "vue";
+import { useApplicationUserStore } from "./store/Pinia/ApplicationUser/ApplicationUserStore.ts";
 
-<style scoped>
-.app-router-view-container {
-}
-</style>
+import { useRouter } from "vue-router";
+
+export default defineComponent({
+  setup() {
+    const applicationUserStore = useApplicationUserStore();
+    const router = useRouter();
+
+    watch(
+      () => applicationUserStore.isAuthenticated,
+      (isAuthenticated) => {
+        if (!isAuthenticated) {
+          router.push({ name: "LoginScreen" });
+        } else if (applicationUserStore.isTokenExpired) {
+          applicationUserStore.logout();
+          router.push({ name: "LoginScreen" });
+        } else {
+          router.push({ name: "TaskBoard" });
+        }
+      },
+      { immediate: true }
+    );
+
+    return {};
+  }
+});
+</script>

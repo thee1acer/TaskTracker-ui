@@ -8,5 +8,7 @@ export interface ApplicationUserDTO extends AuditDTO {
   email: string;
   inactive: boolean;
   unhashedPassword: string;
+  token: string;
+  tokenExpiry: Date;
   userRole: ApplicationUserRoleDTO;
 }
