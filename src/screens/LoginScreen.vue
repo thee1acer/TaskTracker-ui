@@ -46,14 +46,15 @@ import { useUserAuthenticationStore } from "../store/Pinia/Auth/UserAunthenticat
 const username = ref("");
 const password = ref("");
 
+var applicationUserStore = useApplicationUserStore();
+var userAuthStore = useUserAuthenticationStore();
+
 const submitLogin = async () => {
   const loginData = { email: username.value, unhashedPassword: password.value };
 
-  var applicationUserStore = useApplicationUserStore();
-  var userAuthStore = useUserAuthenticationStore();
+  var response = await userAuthStore.logUserIn(loginData);
 
-  await userAuthStore.logUserIn(loginData).then((res) =>{ applicationUserStore.setActivelApplicationUser(applicationUserStore)});
-
+  if(response != undefined) applicationUserStore.setActivelApplicationUser(response);
 };
 </script>
 
@@ -109,13 +110,18 @@ const submitLogin = async () => {
 </style>
 
 <style>
+body {
+  transform: scale(1);
+  transform-origin: 0 0;
+}
+
 /* For Chrome */
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  background-color: #95d2ef !important; /* Your custom background color */
-  -webkit-box-shadow: 0 0 0px 1000px #95d2ef inset !important; /* Same as background color */
-  -webkit-text-fill-color: #000000 !important; /* Your text color */
+  background-color: #95d2ef !important;
+  -webkit-box-shadow: 0 0 0px 1000px #95d2ef inset !important;
+  -webkit-text-fill-color: #000000 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -123,9 +129,9 @@ select:-webkit-autofill {
 input:-moz-autofill,
 textarea:-moz-autofill,
 select:-moz-autofill {
-  background-color: #95d2ef !important; /* Your custom background color */
-  -moz-box-shadow: 0 0 0px 1000px #95d2ef inset !important; /* Same as background color */
-  -moz-text-fill-color: #000000 !important; /* Your text color */
+  background-color: #95d2ef !important;
+  -moz-box-shadow: 0 0 0px 1000px #95d2ef inset !important;
+  -moz-text-fill-color: #000000 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 </style>

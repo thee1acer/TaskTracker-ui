@@ -7,11 +7,17 @@ import "quasar/dist/quasar.css";
 import "@quasar/extras/material-icons/material-icons.css";
 
 import { createPinia } from "pinia";
+
+import piniaPersistedstate from "pinia-plugin-persistedstate";
+
 import router from "./router";
 
 import App from "./App.vue";
 
 const pinia = createPinia();
+
+pinia.use(piniaPersistedstate);
+
 const app = createApp(App);
 
 app.use(Quasar, {
