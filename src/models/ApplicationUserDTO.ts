@@ -1,4 +1,4 @@
-import { ApplicationUserRoleDTO } from "./ApplicationUserRoleDTO";
+import { ApplicationUserPasswordDTO } from "./ApplicationUserPasswordDTO";
 import { AuditDTO } from "./AuditDTO";
 
 export interface ApplicationUserDTO extends AuditDTO {
@@ -10,5 +10,5 @@ export interface ApplicationUserDTO extends AuditDTO {
   unhashedPassword: string;
   token: string;
   tokenExpiry: Date;
-  userRole: ApplicationUserRoleDTO;
+  userPassword: ApplicationUserPasswordDTO;
 }

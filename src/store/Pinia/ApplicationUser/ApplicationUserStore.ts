@@ -5,12 +5,16 @@ import ApplicationUserService from "../../../services/ApplicationUser/Applicatio
 interface ApplicationUserState {
   _activeApplicationUser?: ApplicationUserDTO;
   _allApplicationUsers?: ApplicationUserDTO[];
+  _isAuthenticated?: boolean;
+  _isTokenExpired?: boolean;
 }
 
 export const useApplicationUserStore = defineStore("Application User Store", {
   state: (): ApplicationUserState => ({
     _activeApplicationUser: undefined,
-    _allApplicationUsers: undefined
+    _allApplicationUsers: undefined,
+    _isAuthenticated: undefined,
+    _isTokenExpired: undefined
   }),
   getters: {
     activeApplicationUser: ({ _activeApplicationUser }) => {
@@ -18,25 +22,12 @@ export const useApplicationUserStore = defineStore("Application User Store", {
     },
     allApplicationUser: ({ _allApplicationUsers }) => {
       return _allApplicationUsers;
-    },
-    isAuthenticated: ({ _activeApplicationUser }) => {
-      if (
-        _activeApplicationUser != undefined &&
-        !(_activeApplicationUser.tokenExpiry.getUTCDate > Date.now)
-      )
-        return true;
-      return false;
-    },
-    isTokenExpired: ({ _activeApplicationUser }) => {
-      if (
-        _activeApplicationUser != undefined &&
-        _activeApplicationUser.tokenExpiry.getUTCDate > Date.now
-      )
-        return true;
-      return false;
     }
   },
   actions: {
+    setActivelApplicationUser(appUser: ApplicationUserDTO) {
+      this._activeApplicationUser = appUser;
+    },
     getAllApplicationUsers() {
       ApplicationUserService.getAllUsers().then(
         (users) => (this._allApplicationUsers = users)

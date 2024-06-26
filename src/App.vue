@@ -14,11 +14,27 @@ export default defineComponent({
     const router = useRouter();
 
     watch(
-      () => applicationUserStore.isAuthenticated,
+      () => applicationUserStore._activeApplicationUser,
+      (activeApplicationUser) => {
+        if (activeApplicationUser != undefined) {
+          applicationUserStore._isAuthenticated = true;
+        }
+        if (
+          activeApplicationUser?.token != undefined &&
+          activeApplicationUser.tokenExpiry.getMilliseconds < Date.now
+        ) {
+          applicationUserStore._isTokenExpired = false;
+        }
+      },
+      { immediate: true }
+    );
+
+    watch(
+      () => applicationUserStore._isAuthenticated,
       (isAuthenticated) => {
         if (!isAuthenticated) {
           router.push({ name: "LoginScreen" });
-        } else if (applicationUserStore.isTokenExpired) {
+        } else if (applicationUserStore._isTokenExpired) {
           applicationUserStore.logout();
           router.push({ name: "LoginScreen" });
         } else {

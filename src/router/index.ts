@@ -17,11 +17,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const applicationUserStore = useApplicationUserStore();
 
-  if (!applicationUserStore.isAuthenticated && to.name !== "LoginScreen") {
+  if (!applicationUserStore._isAuthenticated && to.name !== "LoginScreen") {
     next({ name: "LoginScreen" });
   } else if (
-    applicationUserStore.isAuthenticated &&
-    applicationUserStore.isTokenExpired
+    applicationUserStore._isAuthenticated &&
+    applicationUserStore._isTokenExpired
   ) {
     applicationUserStore.logout();
     next({ name: "LoginScreen" });

@@ -1,5 +1,6 @@
 import axios from "../../base-axios";
 import { ApplicationUserDTO } from "../../models/ApplicationUserDTO";
+import { LoginAuthDataDTO } from "../../models/LoginAuthDataDTO";
 
 class UserAuthenticationService {
   async registerUserAsync(user: ApplicationUserDTO): Promise<boolean> {
@@ -8,9 +9,9 @@ class UserAuthenticationService {
       .then((resp) => resp.data);
   }
 
-  async loginUserAsync(user: ApplicationUserDTO): Promise<boolean> {
+  async loginUserAsync(loginAuth: LoginAuthDataDTO): Promise<LoginAuthDataDTO> {
     return axios
-      .post(`authentication/logn-user`, user)
+      .post(`authentication/login-user`, loginAuth)
       .then((resp) => resp.data);
   }
 }
