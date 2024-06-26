@@ -26,11 +26,7 @@ export const useApplicationUserStore = defineStore("Application User Store", {
   },
   actions: {
     setActivelApplicationUser(appUser: ApplicationUserDTO) {
-      console.log({ appUser: appUser });
-
       this._activeApplicationUser = appUser;
-
-      console.log({ setActiveUserTO: this._activeApplicationUser });
     },
     getAllApplicationUsers() {
       ApplicationUserService.getAllUsers().then(

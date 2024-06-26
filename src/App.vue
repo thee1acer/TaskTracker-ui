@@ -33,10 +33,8 @@ export default defineComponent({
       () => applicationUserStore._isAuthenticated,
       (isAuthenticated) => {
         if (!isAuthenticated) {
-          console.log({ lostAth: true });
           router.push({ name: "LoginScreen" });
         } else if (applicationUserStore._isTokenExpired) {
-          console.log({ expiredToken: true });
           applicationUserStore.logout();
           router.push({ name: "LoginScreen" });
         } else {
@@ -50,8 +48,6 @@ export default defineComponent({
       applicationUserStore
     };
   },
-  mounted() {
-    console.log(this.applicationUserStore._activeApplicationUser);
-  }
+  mounted() {}
 });
 </script>
