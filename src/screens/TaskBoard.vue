@@ -197,7 +197,7 @@ onMounted(() => {
 .body-content-left {
   border-right: 1px ridge grey;
   background-color: rgb(244, 238, 238);
-  width: 20%;
+  width: 15%;
   height: 100dvh;
   align-self: start;
   float: left;
@@ -207,7 +207,7 @@ onMounted(() => {
 .body-content-right {
   padding: 1%;
   background-color: white;
-  width: 80%;
+  width: 85%;
   height: 500px;
   align-self: end;
   float: left;
