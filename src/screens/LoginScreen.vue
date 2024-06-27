@@ -79,15 +79,16 @@ const submitLogin = async () => {
 
 .login-input-box {
   margin-bottom: 15px;
-  margin-left: 70px;
+  display: grid;
+  margin-left: 15%;
   width: 70%;
   align-self: center;
 }
 
 .login-button {
   width: 80%;
-  margin-left: 50px;
-  margin-top: 100px;
+  margin-left: 10%;
+  margin-top: 20%;
   background-color: rgb(255, 255, 255);
   color: rgb(24, 49, 68);
   height: 50px;
