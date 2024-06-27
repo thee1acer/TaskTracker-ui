@@ -1,19 +1,32 @@
 <template>
   <div class="task-board-screen-container">
     <div class="top-header">
-      <div class="top-header-title">TaskTracker</div>
+      <div class="top-header-title">
+        <q-icon
+          class="top-header-title-icon"
+          name="content_paste"
+          size="1.8rem"
+          color="blue"
+        />TaskTracker
+      </div>
       <div class="top-header-space"></div>
 
       <div class="top-header-utils">
-        <div class="top-header-add-task" @click="isAddingTask = !isAddingTask">
+        <!---<div class="top-header-add-task" @click="isAddingTask = !isAddingTask">
           <div class="top-header-icon-text">Add Task</div>
 
           <q-icon class="top-header-icon" name="edit_note" size="1.8rem" />
-        </div>
-        <div class="top-header-profile">
-          <div class="top-header-icon-text">Profile</div>
+        </div>--->
 
-          <q-icon class="top-header-icon" name="account_circle" size="1.8rem" />
+        <div class="top-header-profile">
+          <div class="top-header-icon-text">{{ getActiveUser }}</div>
+
+          <q-icon
+            class="top-header-icon"
+            name="account_circle"
+            size="1.9rem"
+            color="grey"
+          />
         </div>
       </div>
     </div>
@@ -83,7 +96,7 @@
 
 <script setup type="ts">
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed} from "vue";
 import { useApplicationUserStore } from "../store/Pinia/ApplicationUser/ApplicationUserStore.ts";
 import { useUserAuthenticationStore } from "../store/Pinia/Auth/UserAunthenticationStore";
 import Tasks from "../components/TaskBoard/Tasks.vue"
@@ -93,17 +106,23 @@ var userAuthStore = useUserAuthenticationStore();
 
 const isAddingTask = ref(true);
 
+
+const getActiveUser = computed(()=>  {
+   var activeUser = applicationUserStore.activeApplicationUser;
+  return activeUser.firstName + " "+ activeUser.lastName;
+});
+
 onMounted(() => {
   console.log({Initiated_TaskBoard: true});
-//fetch all active users and
 })
 </script>
 
 <style scoped>
 .task-board-screen-container {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  overflow: hidden;
 }
 
 .top-header {
@@ -111,8 +130,8 @@ onMounted(() => {
   width: 100%;
   height: 45px;
   grid-template-rows: 1fr;
-  grid-template-columns: 5fr 14fr 5fr;
-  background-color: rgb(117, 194, 225);
+  grid-template-columns: 5fr 14fr 2fr;
+  border: 1px ridge rgb(126, 125, 125);
   font-family: "Roboto";
 }
 
@@ -128,14 +147,15 @@ onMounted(() => {
 .top-header-icon {
   width: 24%;
   height: 100%;
+  padding-top: 4%;
 }
 
 .top-header-icon-text {
   width: 75%;
-  margin-right: 7%;
+  margin-right: 6%;
   height: 100%;
   text-align: right;
-  padding-top: 2%;
+  padding-top: 9%;
 }
 
 .top-header-space {
@@ -146,8 +166,7 @@ onMounted(() => {
 .top-header-utils {
   height: 100%;
   display: flex;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1%;
+  font-weight: bold;
 }
 
 .top-header-add-task {
@@ -162,8 +181,8 @@ onMounted(() => {
   display: flex;
   height: 100%;
   width: 100%;
-  padding: 1%;
-  font-size: 18px;
+  padding-right: 8%;
+  font-size: auto;
 }
 
 .body-content {
@@ -187,7 +206,7 @@ onMounted(() => {
 
 .body-content-right {
   padding: 1%;
-  background-color: rgb(212, 247, 244);
+  background-color: white;
   width: 80%;
   height: 500px;
   align-self: end;
@@ -196,7 +215,7 @@ onMounted(() => {
 }
 
 .tasks-banner {
-  background-color: white;
+  background-color: rgb(244, 238, 238);
   width: 100%;
   height: 100%;
   align-self: start;
@@ -205,21 +224,28 @@ onMounted(() => {
 }
 
 .tasks-banner-override {
-  background-color: white;
+  background-color: rgb(244, 238, 238);
   width: 65%;
   height: 100%;
   align-self: start;
   float: left;
   border-radius: 10px;
+  border: 1px ridge rgb(126, 125, 125);
 }
 
 .add-task-banner {
-  background-color: white;
+  background-color: rgb(244, 238, 238);
   width: 34%;
   height: 100%;
   align-self: end;
   float: left;
   border-radius: 10px;
   margin-left: 1%;
+  border: 1px ridge rgb(126, 125, 125);
+}
+
+.top-header-title-icon {
+  padding-top: 1%;
+  padding-right: 5%;
 }
 </style>

@@ -67,8 +67,7 @@
 .task-input-search {
   width: 100%;
   height: 100%;
-
-  background-color: white;
+  background-color: rgb(244, 238, 238);
 }
 
 .task-header-icon {

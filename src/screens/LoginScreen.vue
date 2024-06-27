@@ -69,7 +69,7 @@ const submitLogin = async () => {
 .login-screen-banner {
   height: 70vh;
   width: 35vw;
-  background-color: #95d2ef;
+  background-color: rgb(244, 238, 238);
   border-radius: 20px;
   padding: 10px;
   padding-top: 70px;
@@ -119,8 +119,8 @@ body {
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  background-color: #95d2ef !important;
-  -webkit-box-shadow: 0 0 0px 1000px #95d2ef inset !important;
+  background-color: #f4eeee !important;
+  -webkit-box-shadow: 0 0 0px 1000px #f4eeee inset !important;
   -webkit-text-fill-color: #000000 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
@@ -129,8 +129,8 @@ select:-webkit-autofill {
 input:-moz-autofill,
 textarea:-moz-autofill,
 select:-moz-autofill {
-  background-color: #95d2ef !important;
-  -moz-box-shadow: 0 0 0px 1000px #95d2ef inset !important;
+  background-color: #f4eeee !important;
+  -moz-box-shadow: 0 0 0px 1000px #f4eeee inset !important;
   -moz-text-fill-color: #000000 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
