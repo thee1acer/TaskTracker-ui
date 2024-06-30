@@ -12,12 +12,6 @@
       <div class="top-header-space"></div>
 
       <div class="top-header-utils">
-        <!---<div class="top-header-add-task" @click="isAddingTask = !isAddingTask">
-          <div class="top-header-icon-text">Add Task</div>
-
-          <q-icon class="top-header-icon" name="edit_note" size="1.8rem" />
-        </div>--->
-
         <div class="top-header-profile">
           <div class="top-header-icon-text">{{ getActiveUser }}</div>
 
@@ -86,7 +80,10 @@
         <div
           :class="[!isAddingTask ? 'tasks-banner' : 'tasks-banner-override']"
         >
-          <Tasks />
+          <Tasks
+            :isAddingTask="isAddingTask"
+            @update:isAddingTask="(addTask) => (isAddingTask = addTask)"
+          />
         </div>
         <div class="add-task-banner" v-if="isAddingTask"></div>
       </div>
@@ -96,7 +93,7 @@
 
 <script setup type="ts">
 
-import { ref, onMounted, computed} from "vue";
+import { ref, onMounted, computed, onBeforeMount} from "vue";
 import { useApplicationUserStore } from "../store/Pinia/ApplicationUser/ApplicationUserStore.ts";
 import { useTaskStore } from "../store/Pinia/Task/TaskStore";
 import { useUserAuthenticationStore } from "../store/Pinia/Auth/UserAunthenticationStore";
@@ -106,7 +103,7 @@ var applicationUserStore = useApplicationUserStore();
 var userAuthStore = useUserAuthenticationStore();
 var taskStore = useTaskStore();
 
-const isAddingTask = ref(true);
+const isAddingTask = ref(false);
 
 
 const getActiveUser = computed(()=>  {
@@ -116,21 +113,20 @@ const getActiveUser = computed(()=>  {
 
 
 const getAllApplicationUsers = async () => {
-  await applicationUserStore.getAllApplicationUsers;
+  await applicationUserStore.getAllApplicationUsers();
 };
 
 const getAllTasks = async () => {
-  await taskStore.getAllTasks;
+  await taskStore.getAllTasks();
 };
 
-onMounted(() => {
+onBeforeMount(() => {
   console.log({Initiated_TaskBoard: true});
 
-  getAllApplicationUsers();
+  getAllApplicationUsers()
   getAllTasks();
 
   applicationUserStore.setActivelApplicationUserRoleId();
-
 });
 </script>
 
@@ -204,7 +200,7 @@ onMounted(() => {
 
 .body-content {
   position: relative;
-  background-color: azure;
+  background-color: rgb(244, 238, 238);
   height: 100%;
   flex: 1;
   overflow-y: auto;
@@ -212,10 +208,9 @@ onMounted(() => {
 }
 
 .body-content-left {
-  border-right: 1px ridge grey;
   background-color: rgb(244, 238, 238);
   width: 15%;
-  height: 100dvh;
+  height: 100%;
   align-self: start;
   float: left;
   font-weight: bold;
@@ -228,7 +223,7 @@ onMounted(() => {
   height: 500px;
   align-self: end;
   float: left;
-  height: 100dvh;
+  height: 100%;
 }
 
 .tasks-banner {
@@ -253,7 +248,7 @@ onMounted(() => {
 .add-task-banner {
   background-color: rgb(244, 238, 238);
   width: 34%;
-  height: 100%;
+  height: 60vh;
   align-self: end;
   float: left;
   border-radius: 10px;

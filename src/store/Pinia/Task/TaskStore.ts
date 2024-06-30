@@ -8,7 +8,7 @@ interface ApplicationUserState {
   _allTasks?: TaskEntityDTO[];
 }
 
-export const useTaskStore = defineStore("Application User Store", {
+export const useTaskStore = defineStore("Task Store", {
   state: (): ApplicationUserState => ({
     _activeTask: undefined,
     _activeTaskId: undefined,
@@ -30,7 +30,7 @@ export const useTaskStore = defineStore("Application User Store", {
       this._activeTask = task;
     },
     getAllTasks() {
-      TaskService.getAllTasks().then((users) => (this._allTasks = users));
+      TaskService.getAllTasksAsync().then((tasks) => (this._allTasks = tasks));
     },
     deleteTasks(taskId: number) {
       TaskService.deleteTaskAsync(taskId).then((res) =>

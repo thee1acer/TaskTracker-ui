@@ -34,9 +34,9 @@ export const useApplicationUserStore = defineStore("Application User Store", {
       this._activeApplicationUser = appUser;
     },
     getAllApplicationUsers() {
-      ApplicationUserService.getAllUsers().then(
-        (users) => (this._allApplicationUsers = users)
-      );
+      ApplicationUserService.getAllUsers().then((users) => {
+        this._allApplicationUsers = users;
+      });
     },
     deleteApplicationUser(applicationUserId: number) {
       ApplicationUserService.deleteUserAsync(applicationUserId).then((res) =>

@@ -2,8 +2,8 @@ import axios from "../../base-axios";
 import { TaskEntityDTO } from "../../models/Task/TaskEntityDTO.";
 
 class TaskService {
-  async getAllTasks(): Promise<TaskEntityDTO[]> {
-    return axios.get(`task/get-all-tasks"`).then((resp) => resp.data);
+  async getAllTasksAsync(): Promise<TaskEntityDTO[]> {
+    return axios.get(`task/get-all-tasks`).then((resp) => resp.data);
   }
 
   async updateTaskAsync(task: TaskEntityDTO): Promise<boolean> {
