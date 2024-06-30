@@ -85,7 +85,9 @@
             @update:isAddingTask="(addTask) => (isAddingTask = addTask)"
           />
         </div>
-        <div class="add-task-banner" v-if="isAddingTask"></div>
+        <div class="add-task-banner" v-if="isAddingTask">
+          <AddTask />
+        </div>
       </div>
     </div>
   </div>
@@ -98,6 +100,7 @@ import { useApplicationUserStore } from "../store/Pinia/ApplicationUser/Applicat
 import { useTaskStore } from "../store/Pinia/Task/TaskStore";
 import { useUserAuthenticationStore } from "../store/Pinia/Auth/UserAunthenticationStore";
 import Tasks from "../components/TaskBoard/Tasks.vue"
+import AddTask from "../components/TaskBoard/AddTask.vue";
 
 var applicationUserStore = useApplicationUserStore();
 var userAuthStore = useUserAuthenticationStore();
@@ -254,6 +257,7 @@ onBeforeMount(() => {
   border-radius: 10px;
   margin-left: 1%;
   border: 1px ridge rgb(126, 125, 125);
+  padding: 1%;
 }
 
 .top-header-title-icon {
