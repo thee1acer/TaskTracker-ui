@@ -135,7 +135,7 @@ onBeforeMount(() => {
 
 <style scoped>
 .task-board-screen-container {
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -206,7 +206,7 @@ onBeforeMount(() => {
   background-color: rgb(244, 238, 238);
   height: 100%;
   flex: 1;
-  overflow-y: auto;
+  overflow-y: hidden;
   font-family: "Roboto";
 }
 
@@ -227,6 +227,7 @@ onBeforeMount(() => {
   align-self: end;
   float: left;
   height: 100%;
+  overflow-y: hidden;
 }
 
 .tasks-banner {
@@ -236,6 +237,11 @@ onBeforeMount(() => {
   align-self: start;
   float: left;
   border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.tasks-banner::-webkit-scrollbar {
+  display: none;
 }
 
 .tasks-banner-override {
@@ -246,6 +252,11 @@ onBeforeMount(() => {
   float: left;
   border-radius: 10px;
   border: 1px ridge rgb(126, 125, 125);
+  overflow-y: scroll;
+}
+
+.tasks-banner-override::-webkit-scrollbar {
+  display: none;
 }
 
 .add-task-banner {
