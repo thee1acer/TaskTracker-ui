@@ -3,7 +3,7 @@ import { ApplicationUserDTO } from "../../models/ApplicationUserDTO";
 
 class ApplicationUserService {
   async getAllUsers(): Promise<ApplicationUserDTO[]> {
-    return axios.get(`user/get-all-users"`).then((resp) => resp.data);
+    return axios.get(`user/get-all-users`).then((resp) => resp.data);
   }
 
   async updateUserAsync(user: ApplicationUserDTO): Promise<boolean> {
@@ -15,7 +15,7 @@ class ApplicationUserService {
   }
 
   async addUserAsync(user: ApplicationUserDTO): Promise<boolean> {
-    return axios.post("add-user", user).then((resp) => resp.data);
+    return axios.post(`add-user`, user).then((resp) => resp.data);
   }
 }
 

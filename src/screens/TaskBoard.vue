@@ -98,11 +98,13 @@
 
 import { ref, onMounted, computed} from "vue";
 import { useApplicationUserStore } from "../store/Pinia/ApplicationUser/ApplicationUserStore.ts";
+import { useTaskStore } from "../store/Pinia/Task/TaskStore";
 import { useUserAuthenticationStore } from "../store/Pinia/Auth/UserAunthenticationStore";
 import Tasks from "../components/TaskBoard/Tasks.vue"
 
 var applicationUserStore = useApplicationUserStore();
 var userAuthStore = useUserAuthenticationStore();
+var taskStore = useTaskStore();
 
 const isAddingTask = ref(true);
 
@@ -112,9 +114,24 @@ const getActiveUser = computed(()=>  {
   return activeUser.firstName + " "+ activeUser.lastName;
 });
 
+
+const getAllApplicationUsers = async () => {
+  await applicationUserStore.getAllApplicationUsers;
+};
+
+const getAllTasks = async () => {
+  await taskStore.getAllTasks;
+};
+
 onMounted(() => {
   console.log({Initiated_TaskBoard: true});
-})
+
+  getAllApplicationUsers();
+  getAllTasks();
+
+  applicationUserStore.setActivelApplicationUserRoleId();
+
+});
 </script>
 
 <style scoped>

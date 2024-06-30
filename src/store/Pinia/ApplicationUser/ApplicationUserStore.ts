@@ -4,6 +4,7 @@ import ApplicationUserService from "../../../services/ApplicationUser/Applicatio
 
 interface ApplicationUserState {
   _activeApplicationUser?: ApplicationUserDTO;
+  _activeApplicationUserRoleId?: number;
   _allApplicationUsers?: ApplicationUserDTO[];
   _isAuthenticated?: boolean;
   _isTokenExpired?: boolean;
@@ -25,6 +26,10 @@ export const useApplicationUserStore = defineStore("Application User Store", {
     }
   },
   actions: {
+    setActivelApplicationUserRoleId() {
+      this._activeApplicationUserRoleId =
+        this._activeApplicationUser?.applicationUserRoleId;
+    },
     setActivelApplicationUser(appUser: ApplicationUserDTO) {
       this._activeApplicationUser = appUser;
     },
