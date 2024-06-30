@@ -30,7 +30,7 @@
 
   <div class="tasks-body" v-for="task in tasks">
     <q-list bordered separator>
-      <q-item clickable v-rippl selected @click="showModal()">
+      <q-item clickable v-rippl selected @click="showModal(task)">
         <q-item-section>
           {{ task.id }} - {{ task.shortDescription }} - [{{ task.state }}]
         </q-item-section>
@@ -41,9 +41,68 @@
   </div>
 
   <q-dialog v-model="modalShowing" persistent
-    ><q-layout class="task-details-modal" align-self="center">
-      <q-btn label="close" v-close-popup />
-    </q-layout>
+    ><q-card class="task-details-modal" align-self="center">
+      <div class="task-details-header">
+        <div class="task-details-header-left">
+          {{ currentTask.taskType }} {{ currentTask.id }}
+        </div>
+        <div class="task-details-header-right">
+          {{ currentTask.state }}
+        </div>
+      </div>
+
+      <div class="task-details-second-header">
+        {{ currentTask.id }} -
+        {{ currentTask.shortDescription }}
+      </div>
+
+      <div class="task-details-assigned-to">
+        Assigned To Mpho Nkala
+        <!---{{ currentTask.assignedTo }}---->
+      </div>
+
+      <br />
+
+      <div class="task-details-short-description">
+        <div class="task-details-short-description-header">Description</div>
+
+        <q-input
+          outlined
+          type="textarea"
+          class="task-details-short-description-text"
+          v-model="currentTask.detailedDescription"
+          autofocus
+          counter
+          @keyup.enter.stop
+        />
+      </div>
+
+      <div
+        v-if="currentTask.taskBlockers?.length > 0"
+        class="task-details-blockers-header"
+      >
+        Blockers
+      </div>
+      <div
+        v-for="blocker in currentTask.taskBlockers"
+        class="task-details-blockers"
+      >
+        Blcoker {{ blocker.id }} -
+        {{ blocker.blockerReason }}
+        {{ blocker.inActive }}
+      </div>
+
+      <div class="task-details-buttons">
+        <q-btn label="Close" no-caps class="task-details-btn" v-close-popup />
+
+        <q-btn
+          label="Save"
+          no-caps
+          class="task-details-btn"
+          @click="saveTaskChanges(currentTask.id)"
+        />
+      </div>
+    </q-card>
   </q-dialog>
 </template>
 
@@ -62,6 +121,7 @@ const taskStore = useTaskStore();
 
 const searchTasksText = ref("");
 const tasks = ref([]);
+const currentTask = ref(undefined);
 const modalShowing = ref(false);
 
 const updateIsAddingTask = () => {
@@ -72,12 +132,25 @@ const setAllTasks = () => {
   tasks.value = JSON.parse(JSON.stringify(taskStore._allTasks));
 };
 
-const showModal = () => {
+const showModal = (task) => {
   modalShowing.value = true;
+  setCurrentlySelectedTask(task)
 }
 
 const hideModal = () => {
   modalShowing.value = false;
+  currentTask = undefined;
+}
+
+const setCurrentlySelectedTask =  (task) => {
+  currentTask.value = task;
+
+  console.log({currentTask: currentTask.value});
+}
+
+
+const saveTaskChanges = async (currentTaskFocus) => {
+  await taskStore.updateTask(currentTaskFocus);
 }
 
 onBeforeMount(() => {
@@ -125,8 +198,80 @@ onBeforeMount(() => {
 .tasks-body {
   padding: 10px;
 }
+
 .task-details-modal {
-  background-color: white;
-  height: 100%;
+  min-height: 90vh;
+  min-width: 100vh;
+  padding: 2%;
+  background-color: rgb(244, 238, 238);
+  border: ;
+}
+
+.task-details-header {
+  width: 100%;
+  font-size: large;
+  font-weight: bold;
+  display: grid;
+  margin-bottom: 10px;
+  grid-template-rows: 1fr;
+  grid-template-columns: 4fr 1fr;
+}
+.task-details-header-left {
+  display: flex;
+}
+
+.task-details-header-right {
+  display: flex;
+}
+
+.task-details-second-header {
+  width: 100%;
+  font-size: large;
+  padding: 5px 0px 5px 0px;
+  background-color: rgb(211, 217, 217);
+  padding-left: 5px;
+}
+
+.task-details-assigned-to {
+  width: 100%;
+  font-size: medium;
+  padding: 5px 0px 5px 0px;
+  background-color: rgb(186, 186, 172);
+  padding-left: 5px;
+}
+
+.task-details-short-description {
+  margin-top: 10vh;
+}
+.task-details-short-description-header {
+  margin-bottom: 2%;
+}
+.task-details-short-description-text {
+}
+
+.task-details-buttons {
+  margin-top: 20%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.task-details-btn {
+  display: flex;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgb(196, 193, 193);
+}
+
+.task-details-blockers-header {
+  font-weight: bolder;
+  font-size: medium;
+  margin-bottom: 15px;
+}
+
+.task-details-blockers {
+  border: 1px solid rgb(188, 184, 184);
 }
 </style>
