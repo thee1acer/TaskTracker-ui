@@ -15,7 +15,8 @@ export const useApplicationUserStore = defineStore("Application User Store", {
     _activeApplicationUser: undefined,
     _allApplicationUsers: undefined,
     _isAuthenticated: undefined,
-    _isTokenExpired: undefined
+    _isTokenExpired: undefined,
+    _activeApplicationUserRoleId: undefined
   }),
   getters: {
     activeApplicationUser: ({ _activeApplicationUser }) => {

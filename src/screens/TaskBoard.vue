@@ -262,13 +262,18 @@ onBeforeMount(() => {
 .add-task-banner {
   background-color: rgb(244, 238, 238);
   width: 34%;
-  height: 60vh;
+  height: 80vh;
   align-self: end;
   float: left;
   border-radius: 10px;
   margin-left: 1%;
   border: 1px ridge rgb(126, 125, 125);
   padding: 1%;
+  overflow-y: scroll;
+}
+
+.add-task-banner::-webkit-scrollbar {
+  display: none;
 }
 
 .top-header-title-icon {

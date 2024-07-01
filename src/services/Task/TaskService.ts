@@ -11,11 +11,11 @@ class TaskService {
   }
 
   async deleteTaskAsync(taskId: number): Promise<boolean> {
-    return axios.delete(`delete-task/${taskId}`).then((resp) => resp.data);
+    return axios.delete(`task/delete-task/${taskId}`).then((resp) => resp.data);
   }
 
   async addTaskAsync(task: TaskEntityDTO): Promise<boolean> {
-    return axios.post("add-task", task).then((resp) => resp.data);
+    return axios.post("task/add-task", task).then((resp) => resp.data);
   }
 }
 

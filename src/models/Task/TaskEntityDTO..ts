@@ -11,5 +11,5 @@ export interface TaskEntityDTO extends AuditDTO {
   taskPriority: number;
   taskStoryPoints: number;
   taskStoryEffort: number;
-  taskBlockers: TaskBlockerEntityDTO[];
+  taskBlockers?: TaskBlockerEntityDTO[];
 }

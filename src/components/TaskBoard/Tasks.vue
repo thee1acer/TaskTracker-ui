@@ -30,13 +30,20 @@
 
   <div class="tasks-body" v-for="task in tasks">
     <q-list bordered separator>
-      <q-item clickable v-rippl selected @click="showModal(task)">
-        <q-item-section>
-          {{ task.id }} - {{ task.shortDescription }} - [{{ task.state }}]
-        </q-item-section>
-
-        <q-icon name="list" size="1.7rem" />
-      </q-item>
+      <div class="task-list-item">
+        <q-item clickable v-rippl selected @click="showModal(task)">
+          <q-item-section>
+            {{ task.id }} - {{ task.shortDescription }} - [{{ task.state }}]
+          </q-item-section>
+        </q-item>
+        <q-icon
+          class="task-list-tem-icon"
+          @click="deleteTask(task.id)"
+          name="delete"
+          size="1.7rem"
+          filled
+        />
+      </div>
     </q-list>
   </div>
 
@@ -47,7 +54,13 @@
           {{ currentTask.taskType }} {{ currentTask.id }}
         </div>
         <div class="task-details-header-right">
-          {{ currentTask.state }}
+          <q-select
+            outlined
+            dense
+            v-model="currentTask.state"
+            :options="stateOptions"
+            :disable="!isAdmin"
+          />
         </div>
       </div>
 
@@ -57,8 +70,14 @@
       </div>
 
       <div class="task-details-assigned-to">
-        Assigned To Mpho Nkala
-        <!---{{ currentTask.assignedTo }}---->
+        <div>Assigned To</div>
+        <q-select
+          outlined
+          dense
+          v-model="assignedTo"
+          :options="userOptions"
+          class="task-details-assigned"
+        />
       </div>
 
       <br />
@@ -87,7 +106,7 @@
         v-for="blocker in currentTask.taskBlockers"
         class="task-details-blockers"
       >
-        Blcoker {{ blocker.id }} -
+        Blocker {{ blocker.id }} -
         {{ blocker.blockerReason }}
         {{ blocker.inActive }}
       </div>
@@ -107,9 +126,10 @@
 </template>
 
 <script setup type="ts">
-import { defineProps } from 'vue';
+import { defineProps, watch } from 'vue';
 import { ref, onMounted, computed, onBeforeMount} from "vue";
 import { useTaskStore } from "../../store/Pinia/Task/TaskStore";
+import { useApplicationUserStore } from "../../store/Pinia/ApplicationUser/ApplicationUserStore";
 
 const props = defineProps({
   isAddingTask: Boolean
@@ -118,19 +138,55 @@ const props = defineProps({
 const emit = defineEmits(["update:addingTask"]);
 
 const taskStore = useTaskStore();
+const userAppStore = useApplicationUserStore();
 
 const searchTasksText = ref("");
 const tasks = ref([]);
 const currentTask = ref(undefined);
 const modalShowing = ref(false);
+const assignedTo = ref("");
+
+const stateOptions = ["New","In Progress", "Blocked", "Completed"]
 
 const updateIsAddingTask = () => {
   emit("update:isAddingTask", !props.isAddingTask);
 }
 
 const setAllTasks = () => {
-  tasks.value = JSON.parse(JSON.stringify(taskStore._allTasks));
+  if(taskStore._allTasks != undefined){
+    tasks.value = JSON.parse(JSON.stringify(taskStore._allTasks));
+  }
 };
+
+const userOptions = computed(() => {return userAppStore._allApplicationUsers.map((v) => v.firstName + " " + v.lastName)});
+
+watch(
+  () => currentTask.value,
+  (currentTaskValue) => {
+    if(currentTaskValue != undefined) {
+      console.log(currentTaskValue);
+
+      var foundUser = userAppStore._allApplicationUsers.find(v => v.id == currentTaskValue.assignedTo);
+      console.log({found: foundUser});
+      assignedTo.value =  foundUser.firstName + " " + foundUser.lastName;
+    }
+  },
+    { immediate: true });
+
+watch(
+      () => taskStore._allTasks,
+      (tasksTrack) => {
+        if (tasksTrack != undefined) {
+          tasks.value = undefined;
+        }
+        if (
+          tasksTrack != undefined
+        ) {
+          tasks.value = tasksTrack;
+        }
+      },
+      { immediate: true }
+    );
 
 const showModal = (task) => {
   modalShowing.value = true;
@@ -142,16 +198,27 @@ const hideModal = () => {
   currentTask = undefined;
 }
 
+const isAdmin = computed(() => {
+  return userAppStore._activeApplicationUserRoleId == 3
+});
+
 const setCurrentlySelectedTask =  (task) => {
   currentTask.value = task;
-
   console.log({currentTask: currentTask.value});
 }
 
+const saveTaskChanges = async () => {
+  await taskStore.updateTask(currentTask.value);
 
-const saveTaskChanges = async (currentTaskFocus) => {
-  await taskStore.updateTask(currentTaskFocus);
+  window.location.reload(); // to implement signalr
 }
+
+const deleteTask = async (currentTaskFocus) => {
+  await taskStore.deleteTasks(currentTaskFocus);
+
+  window.location.reload(); // to implement signalr
+}
+
 
 onBeforeMount(() => {
   setAllTasks();
@@ -238,6 +305,9 @@ onBeforeMount(() => {
   padding: 5px 0px 5px 0px;
   background-color: rgb(186, 186, 172);
   padding-left: 5px;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 2fr 1fr;
 }
 
 .task-details-short-description {
@@ -273,5 +343,32 @@ onBeforeMount(() => {
 
 .task-details-blockers {
   border: 1px solid rgb(188, 184, 184);
+}
+
+.task-list-item {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 23fr 1fr;
+}
+.task-list-tem-icon {
+  margin-top: 10px;
+}
+
+.task-details-assigned {
+  width: 200px;
+}
+
+.add-task-save {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.add-task-save-button {
+  width: 80%;
+  flex: 1;
+  flex-direction: column;
+  align-self: end;
+  float: right;
 }
 </style>

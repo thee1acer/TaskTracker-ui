@@ -37,12 +37,36 @@ export const useTaskStore = defineStore("Task Store", {
         console.log({ task_deletion: res })
       );
     },
-    addTask(task: TaskEntityDTO) {
+    addTask(
+      matchingAssignedUserId: number,
+      shortDescription: string,
+      detailedDescription: string
+    ) {
+      console.log(shortDescription);
+      console.log(detailedDescription);
+
+      const task: TaskEntityDTO = {
+        id: 0,
+        assignedTo: matchingAssignedUserId,
+        shortDescription: "Dummy Short Description",
+        detailedDescription: "Dummy Detailed Description",
+        state: "New",
+        taskType: "User Story",
+        taskPriority: 1,
+        taskStoryPoints: 1,
+        taskStoryEffort: 4,
+        createdBy: null,
+        createdOn: null,
+        modifiedBy: null,
+        modifiedOn: null
+      };
+
       TaskService.addTaskAsync(task).then((res) =>
         console.log({ task_addition: res })
       );
     },
     updateTask(task: TaskEntityDTO) {
+      console.log({ hit: task });
       TaskService.updateTaskAsync(task).then((res) =>
         console.log({ task_update: res })
       );
