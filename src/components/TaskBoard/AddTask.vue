@@ -57,13 +57,13 @@ const detailedDescription = ref("");
 
 const userOptions = computed(() => {return userAppStore._allApplicationUsers.map((v) => v.firstName + " " + v.lastName)});
 
+const findSelectedUser = computed(() => {
+  return computed(() => {return userAppStore._allApplicationUsers.find((v) => (v.firstName + " " + v.lastName) == assignedTo.value).id});
+});
+
 const addNewTask = async () => {
-    const matchingAssignedUserId = userAppStore._allApplicationUsers
-      .filter((v) => (v.firstName + " " + v.lastName) == assignedTo.value)[0].id;
-
-    await taskStore.addTask(matchingAssignedUserId.value, shortDescription.value.toString(), detailedDescription.value.toString());
-
-    //window.location.reload(); //to implement signalr
+  const matchingAssignedUserId = findSelectedUser.value.value;
+  await taskStore.addTask(matchingAssignedUserId, shortDescription.value.toString(), detailedDescription.value.toString());
 };
 </script>
 
