@@ -207,16 +207,17 @@ const setCurrentlySelectedTask =  (task) => {
   console.log({currentTask: currentTask.value});
 }
 
-const saveTaskChanges = async () => {
-  await taskStore.updateTask(currentTask.value);
+const findSelectedUser = computed(() => {
+  return computed(() => {return userAppStore._allApplicationUsers.find((v) => (v.firstName + " " + v.lastName) == assignedTo.value).id});
+});
 
-  window.location.reload(); // to implement signalr
+const saveTaskChanges = async () => {
+  currentTask.value.assignedTo = findSelectedUser.value.value;
+  await taskStore.updateTaskAsync(currentTask.value);
 }
 
 const deleteTask = async (currentTaskFocus) => {
   await taskStore.deleteTasks(currentTaskFocus);
-
-  window.location.reload(); // to implement signalr
 }
 
 

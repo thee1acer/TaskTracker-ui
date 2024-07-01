@@ -33,23 +33,21 @@ export const useTaskStore = defineStore("Task Store", {
       TaskService.getAllTasksAsync().then((tasks) => (this._allTasks = tasks));
     },
     deleteTasks(taskId: number) {
-      TaskService.deleteTaskAsync(taskId).then((res) =>
-        console.log({ task_deletion: res })
-      );
+      TaskService.deleteTaskAsync(taskId).then((res) => {
+        console.log({ task_deletion: res });
+        window.location.reload(); // to implement signalr
+      });
     },
     addTask(
       matchingAssignedUserId: number,
       shortDescription: string,
       detailedDescription: string
     ) {
-      console.log(shortDescription);
-      console.log(detailedDescription);
-
       const task: TaskEntityDTO = {
         id: 0,
         assignedTo: matchingAssignedUserId,
-        shortDescription: "Dummy Short Description",
-        detailedDescription: "Dummy Detailed Description",
+        shortDescription: shortDescription,
+        detailedDescription: detailedDescription,
         state: "New",
         taskType: "User Story",
         taskPriority: 1,
@@ -61,15 +59,16 @@ export const useTaskStore = defineStore("Task Store", {
         modifiedOn: null
       };
 
-      TaskService.addTaskAsync(task).then((res) =>
-        console.log({ task_addition: res })
-      );
+      TaskService.addTaskAsync(task).then((res) => {
+        console.log({ task_addition: res });
+        window.location.reload(); // to implement signalr
+      });
     },
-    updateTask(task: TaskEntityDTO) {
-      console.log({ hit: task });
-      TaskService.updateTaskAsync(task).then((res) =>
-        console.log({ task_update: res })
-      );
+    async updateTaskAsync(task: TaskEntityDTO) {
+      await TaskService.updateTaskAsync(task).then((res) => {
+        console.log({ task_update: res });
+        window.location.reload(); // to implement signalr
+      });
     }
   },
   persist: {

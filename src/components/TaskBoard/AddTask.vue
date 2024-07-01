@@ -58,9 +58,11 @@ const detailedDescription = ref("");
 const userOptions = computed(() => {return userAppStore._allApplicationUsers.map((v) => v.firstName + " " + v.lastName)});
 
 const addNewTask = async () => {
-    const matchingAssignedUserId = userAppStore._allApplicationUsers.filter((v) => (v.firstName + " " + v.lastName) == assignedTo.value)[0].id;
+    const matchingAssignedUserId = userAppStore._allApplicationUsers
+      .filter((v) => (v.firstName + " " + v.lastName) == assignedTo.value)[0].id;
 
-    await taskStore.addTask(matchingAssignedUserId, shortDescription.toString(), detailedDescription.toString());
+    await taskStore.addTask(matchingAssignedUserId.value, shortDescription.value.toString(), detailedDescription.value.toString());
+
     //window.location.reload(); //to implement signalr
 };
 </script>
