@@ -62,19 +62,20 @@ const submitLogin = async () => {
 .login-screen-container {
   background-color: rgb(255, 255, 255);
   height: 100vh;
-  padding-left: 30vw;
-  padding-top: 10vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-screen-banner {
-  height: 70vh;
-  width: 35vw;
   background-color: rgb(244, 238, 238);
   border-radius: 20px;
   padding: 10px;
   padding-top: 70px;
   border: 1px solid rgb(200, 197, 197);
   box-shadow: 1px;
+  width: 500px;
 }
 
 .login-input-box {
