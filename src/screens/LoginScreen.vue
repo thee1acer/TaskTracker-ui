@@ -1,15 +1,15 @@
 <template>
-  <div class="flex w-full p-6">
+  <div class="flex h-screen p-6">
     <div
       id="companyBannerSide"
-      class="h-screen w-1/2 bg-teal-200 rounded-lg flex justify-center items-center"
+      class="h-full w-1/2 bg-teal-200 rounded-lg flex justify-center items-center"
     >
       Welcome!
     </div>
 
     <div
       id="loginOrRegisterSide"
-      class="flex h-lvh w-1/2 justify-center items-center"
+      class="flex h-full w-1/2 justify-center items-center"
     >
       <div class="grid w-full justify-center p-4 gap-y-2">
         <div id="companyLogoContainer" class="flex justify-center items-center">
