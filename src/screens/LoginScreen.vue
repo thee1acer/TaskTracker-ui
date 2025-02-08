@@ -19,12 +19,12 @@
           />
         </div>
 
-        <span class="text-2xl text-center">TaskTracker</span>
+        <span class="text-2xl font-bold text-center">TaskTracker</span>
 
-        <div class="p-4 flex flex-col space-y-3">
+        <div class="p-4 flex flex-col space-y-3 w-80">
           <q-input
             outlined
-            label="email adress"
+            label="email address"
             stack-label
             type="email"
             dense
@@ -51,6 +51,12 @@
             </template>
           </q-input>
 
+          <div id="forgotPassword" class="w-full text-right">
+            <span class="text-xs text-blue-700 hover:text-purple-900"
+              >Recover Password</span
+            >
+          </div>
+
           <q-btn
             color="teal-6"
             label="Login"
@@ -58,6 +64,14 @@
             @click="submitLogin"
             class="w-full"
           />
+
+          <q-btn
+            label="Sign-in with Google"
+            no-caps
+            @click="submitLogin"
+            class="w-full"
+          >
+          </q-btn>
         </div>
       </div>
     </div>
