@@ -33,7 +33,8 @@
             dense
             error-message="Must be a valid email"
             input-class="login-input-box-override"
-            v-model="username"
+            v-model="email"
+            :rules="[(val) => validateEmailAdress(val)]"
           >
             <template v-slot:append>
               <q-icon name="email" size="1.23rem" color="blue" />
@@ -48,6 +49,7 @@
             type="password"
             v-model="password"
             input-class="login-input-box-override"
+            :rules="[(val) => validatePassword(val)]"
           >
             <template v-slot:append>
               <q-icon name="key" size="1.23rem" color="blue" />
@@ -64,14 +66,15 @@
             color="teal-6"
             label="Login"
             no-caps
-            @click="submitLogin"
+            :disable="!isEmailValid || !isPasswordValid"
+            @click="appLogin"
             class="w-full"
           />
 
           <q-btn
             label="Sign-in with Google"
             no-caps
-            @click="submitLogin"
+            @click="googleLogin"
             class="w-full gap-x-3"
           >
             <template v-slot:default>
@@ -90,21 +93,13 @@
 </template>
 
 <script setup type="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useApplicationUserStore } from "../store/Pinia/ApplicationUser/ApplicationUserStore.ts";
 import { useUserAuthenticationStore } from "../store/Pinia/Auth/UserAunthenticationStore";
+import {loginScreen} from "../composables/loginScreen.ts"
 
-const username = ref("");
-const password = ref("");
+const { email, password, validateEmailAdress, validatePassword, appLogin, googleLogin } = loginScreen();
 
-var applicationUserStore = useApplicationUserStore();
-var userAuthStore = useUserAuthenticationStore();
-
-const submitLogin = async () => {
-  const loginData = { email: username.value, unhashedPassword: password.value };
-
-  var response = await userAuthStore.logUserIn(loginData);
-
-  if(response != undefined) applicationUserStore.setActivelApplicationUser(response);
-};
+const isEmailValid = computed(() => validateEmailAdress(email.value) === true);
+const isPasswordValid = computed(() => validatePassword(password.value) === true);
 </script>
