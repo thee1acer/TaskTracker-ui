@@ -4,7 +4,10 @@
       id="companyBannerSide"
       class="h-full w-1/2 bg-teal-200 rounded-lg flex justify-center items-center"
     >
-      Welcome!
+      <img
+        src="/src/assets/logo/tasktrackerlogo.svg"
+        class="w-16 h-20 object-cover"
+      />
     </div>
 
     <div
@@ -69,8 +72,16 @@
             label="Sign-in with Google"
             no-caps
             @click="submitLogin"
-            class="w-full"
+            class="w-full gap-x-3"
           >
+            <template v-slot:default>
+              <div class="ml-3">
+                <img
+                  src="/src/assets/logo/google.svg"
+                  class="h-6 object-cover"
+                />
+              </div>
+            </template>
           </q-btn>
         </div>
       </div>
